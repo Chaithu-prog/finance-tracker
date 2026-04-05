@@ -4,7 +4,7 @@
 // API CLIENT
 // ═══════════════════════════════════
 const API = {
-  BASE: 'https://finance-tracker-wb5m.onrender.com:5000/api',
+  BASE: 'https://finance-tracker-wb5m.onrender.com/api',,
   getToken: () => localStorage.getItem('ff_token'),
   setToken: (t) => t ? localStorage.setItem('ff_token', t) : localStorage.removeItem('ff_token'),
   async req(method, path, body) {
