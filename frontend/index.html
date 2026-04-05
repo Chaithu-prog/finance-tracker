@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinFolio — Smart Finance Tracker</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toast-container"></div>
+
+<!-- SIDEBAR OVERLAY -->
+<div class="overlay-blocker" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ═══════════════════════════════════
+     LANDING SCREEN
+═══════════════════════════════════ -->
+<div id="s-landing" class="screen active">
+  <div class="landing">
+    <nav class="land-nav">
+      <div class="land-nav-brand">Fin<span style="color:var(--sage)">Folio</span></div>
+      <div class="land-nav-links">
+        <a class="land-nav-link" onclick="scrollTo(0,600)">Features</a>
+        <a class="land-nav-link" onclick="scrollTo(0,1400)">Reviews</a>
+        <a class="land-nav-link" href="#" onclick="showScreen('s-app');return false">Community</a>
+      </div>
+      <div class="land-nav-actions">
+        <button class="btn btn-outline btn-sm" onclick="showScreen('s-login')">Sign In</button>
+        <button class="btn btn-primary btn-sm" onclick="showScreen('s-register')">Get Started Free</button>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-left">
+        <div class="hero-eyebrow">🌿 Your financial clarity starts here</div>
+        <h1 class="hero-title">Master Your<br><span>Money</span>,<br>Build Your Future</h1>
+        <p class="hero-desc">FinFolio is the all-in-one finance tracker that helps you track income &amp; expenses, crush your savings goals, and invest smarter — with AI guidance every step of the way.</p>
+        <div class="hero-ctas">
+          <button class="btn btn-primary btn-lg" onclick="showScreen('s-register')">Start for Free →</button>
+          <button class="btn btn-outline btn-lg" onclick="showScreen('s-login')">Sign In</button>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-val">₹4.2Cr+</div>
+            <div class="hero-stat-lbl">Tracked by users</div>
+          </div>
+          <div>
+            <div class="hero-stat-val">18K+</div>
+            <div class="hero-stat-lbl">Active members</div>
+          </div>
+          <div>
+            <div class="hero-stat-val">4.9★</div>
+            <div class="hero-stat-lbl">User rating</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-badge">📈 Live Dashboard</div>
+        <div class="hero-visual-title">Monthly Overview</div>
+        <div class="hero-balance">₹1,24,500</div>
+        <div class="hero-balance-sub">↑ ₹12,000 from last month</div>
+        <div class="mini-bars">
+          <div class="mini-bar" style="height:35%;background:var(--rose-light);border:1px solid var(--rose)"></div>
+          <div class="mini-bar" style="height:55%;background:var(--sage-light);border:1px solid var(--sage)"></div>
+          <div class="mini-bar" style="height:45%;background:var(--rose-light);border:1px solid var(--rose)"></div>
+          <div class="mini-bar" style="height:70%;background:var(--sage-light);border:1px solid var(--sage)"></div>
+          <div class="mini-bar" style="height:60%;background:var(--rose-light);border:1px solid var(--rose)"></div>
+          <div class="mini-bar" style="height:85%;background:var(--sage-light);border:1px solid var(--sage)"></div>
+          <div class="mini-bar" style="height:75%;background:var(--rose-light);border:1px solid var(--rose)"></div>
+        </div>
+        <div class="hero-cats">
+          <div class="hero-cat"><div class="hero-cat-dot" style="background:var(--rose)"></div><div class="hero-cat-name">Food &amp; Dining</div><div class="hero-cat-val">₹8,200</div></div>
+          <div class="hero-cat"><div class="hero-cat-dot" style="background:var(--sky)"></div><div class="hero-cat-name">Transport</div><div class="hero-cat-val">₹3,400</div></div>
+          <div class="hero-cat"><div class="hero-cat-dot" style="background:var(--gold)"></div><div class="hero-cat-name">Shopping</div><div class="hero-cat-val">₹12,800</div></div>
+          <div class="hero-cat"><div class="hero-cat-dot" style="background:var(--sage)"></div><div class="hero-cat-name">Investments</div><div class="hero-cat-val">₹25,000</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="features-header">
+        <div class="features-eyebrow">Everything you need</div>
+        <h2 class="features-title">Built for real financial growth</h2>
+        <p class="features-desc">From daily expense tracking to long-term wealth building, FinFolio covers every aspect of your financial journey.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3 class="feature-title">Smart Transaction Tracking</h3>
+          <p class="feature-desc">Log income and expenses with categories, tags, and payment methods. Get instant insights on where your money goes.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3 class="feature-title">Financial Goal Setting</h3>
+          <p class="feature-desc">Set savings goals with deadlines, track contributions, and celebrate milestones as you build your financial future.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <h3 class="feature-title">AI Financial Advisor</h3>
+          <p class="feature-desc">Get personalized advice, spending analysis, and investment recommendations from your AI-powered money coach.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📰</div>
+          <h3 class="feature-title">Finance News &amp; Insights</h3>
+          <p class="feature-desc">Stay updated with curated financial news, market trends, and investment opportunities relevant to India.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💬</div>
+          <h3 class="feature-title">Community Discussions</h3>
+          <p class="feature-desc">Connect with fellow finance enthusiasts, share tips, discuss strategies, and grow your financial IQ together.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💼</div>
+          <h3 class="feature-title">Investment Suggestions</h3>
+          <p class="feature-desc">Discover curated investment opportunities — from mutual funds to SIPs — matched to your risk profile and goals.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonials">
+      <div class="testimonials-inner">
+        <div class="features-header">
+          <div class="features-eyebrow">Loved by users</div>
+          <h2 class="features-title">Real stories, real results</h2>
+        </div>
+        <div class="testi-grid">
+          <div class="testi-card">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"FinFolio completely changed how I manage money. I saved ₹80,000 in 6 months just by understanding my spending patterns."</p>
+            <div class="testi-author">
+              <div class="testi-avatar" style="background:var(--sage)">RK</div>
+              <div><div class="testi-name">Rajesh Kumar</div><div class="testi-role">Software Engineer, Bengaluru</div></div>
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"The AI advisor helped me build my first investment portfolio. I finally understand where to put my money to grow wealth."</p>
+            <div class="testi-author">
+              <div class="testi-avatar" style="background:var(--sky)">PA</div>
+              <div><div class="testi-name">Priya Agarwal</div><div class="testi-role">Marketing Manager, Mumbai</div></div>
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"The community feature is incredible. Learning from others has given me so many money-saving ideas I never would have found alone."</p>
+            <div class="testi-author">
+              <div class="testi-avatar" style="background:var(--gold)">AM</div>
+              <div><div class="testi-name">Arjun Mehta</div><div class="testi-role">Entrepreneur, Hyderabad</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="land-cta">
+      <h2 class="land-cta-title">Ready to take control?</h2>
+      <p class="land-cta-desc">Join 18,000+ Indians building better financial habits with FinFolio.</p>
+      <button class="btn btn-white btn-lg" onclick="showScreen('s-register')">Create Free Account →</button>
+    </section>
+
+    <footer class="land-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">Fin<span style="color:var(--sage)">Folio</span></div>
+        <div class="footer-links">
+          <a class="footer-link" href="#">Privacy</a>
+          <a class="footer-link" href="#">Terms</a>
+          <a class="footer-link" href="#">Support</a>
+        </div>
+        <div class="footer-copy">© 2024 FinFolio. Made with ♥ in India.</div>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     LOGIN SCREEN
+═══════════════════════════════════ -->
+<div id="s-login" class="screen auth-screen">
+  <div class="auth-left">
+    <div class="auth-brand">Fin<span style="color:rgba(255,255,255,.7)">Folio</span></div>
+    <div class="auth-tagline">Your complete financial companion</div>
+    <div class="auth-features">
+      <div class="auth-feature">
+        <div class="auth-feature-icon">📊</div>
+        <div class="auth-feature-text"><span class="auth-feature-title">Track every rupee</span>Understand your spending patterns with beautiful charts and insights.</div>
+      </div>
+      <div class="auth-feature">
+        <div class="auth-feature-icon">🎯</div>
+        <div class="auth-feature-text"><span class="auth-feature-title">Achieve your goals</span>Set savings goals and track your progress with milestone celebrations.</div>
+      </div>
+      <div class="auth-feature">
+        <div class="auth-feature-icon">🤖</div>
+        <div class="auth-feature-text"><span class="auth-feature-title">AI-powered advice</span>Get personalized financial guidance tailored to your situation.</div>
+      </div>
+    </div>
+  </div>
+  <div class="auth-right">
+    <div class="auth-form-wrap">
+      <h2 class="auth-form-title">Welcome back</h2>
+      <p class="auth-form-sub">Sign in to your FinFolio account</p>
+      <form id="login-form" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="login-email" class="form-input" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" id="login-password" class="form-input" placeholder="Your password" required>
+        </div>
+        <div id="login-error" class="form-error mb-16" style="display:none"></div>
+        <button type="submit" id="login-btn" class="btn btn-primary w-full">Sign In</button>
+      </form>
+      <div class="auth-switch">Don't have an account? <a onclick="showScreen('s-register')">Create one free</a></div>
+      <div class="auth-switch mt-8"><a onclick="showScreen('s-landing')" style="color:var(--ink4);font-weight:400">← Back to home</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     REGISTER SCREEN
+═══════════════════════════════════ -->
+<div id="s-register" class="screen auth-screen">
+  <div class="auth-left">
+    <div class="auth-brand">Fin<span style="color:rgba(255,255,255,.7)">Folio</span></div>
+    <div class="auth-tagline">Start your financial journey today</div>
+    <div class="auth-features">
+      <div class="auth-feature">
+        <div class="auth-feature-icon">✅</div>
+        <div class="auth-feature-text"><span class="auth-feature-title">Free forever</span>Core features are always free. No credit card required to get started.</div>
+      </div>
+      <div class="auth-feature">
+        <div class="auth-feature-icon">🔒</div>
+        <div class="auth-feature-text"><span class="auth-feature-title">Bank-grade security</span>Your financial data is encrypted and never shared with third parties.</div>
+      </div>
+      <div class="auth-feature">
+        <div class="auth-feature-icon">⚡</div>
+        <div class="auth-feature-text"><span class="auth-feature-title">Up in 60 seconds</span>Create your account and start tracking your finances immediately.</div>
+      </div>
+    </div>
+  </div>
+  <div class="auth-right">
+    <div class="auth-form-wrap">
+      <h2 class="auth-form-title">Create account</h2>
+      <p class="auth-form-sub">Join 18,000+ people managing money smarter</p>
+      <form id="register-form" onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" id="reg-name" class="form-input" placeholder="Rahul Sharma" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="reg-email" class="form-input" placeholder="rahul@example.com" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" id="reg-password" class="form-input" placeholder="Min 6 characters" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirm Password</label>
+            <input type="password" id="reg-confirm" class="form-input" placeholder="Repeat password" required>
+          </div>
+        </div>
+        <div id="reg-error" class="form-error mb-16" style="display:none"></div>
+        <button type="submit" id="reg-btn" class="btn btn-primary w-full">Create Account →</button>
+      </form>
+      <div class="auth-switch">Already have an account? <a onclick="showScreen('s-login')">Sign in</a></div>
+      <div class="auth-switch mt-8"><a onclick="showScreen('s-landing')" style="color:var(--ink4);font-weight:400">← Back to home</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     MAIN APP SCREEN
+═══════════════════════════════════ -->
+<div id="s-app" class="screen">
+  <div class="app-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-brand-name">Fin<span class="sidebar-brand-dot">Folio</span></div>
+        <div class="sidebar-brand-tag">Smart Finance Tracker</div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Overview</div>
+        <div class="nav-link active" onclick="navTo('dashboard')" data-page="dashboard">
+          <span class="nav-icon">🏠</span> Dashboard
+        </div>
+        <div class="nav-link" onclick="navTo('transactions')" data-page="transactions">
+          <span class="nav-icon">💳</span> Transactions
+        </div>
+        <div class="nav-link" onclick="navTo('budgets')" data-page="budgets">
+          <span class="nav-icon">📋</span> Budgets
+        </div>
+
+        <div class="nav-section-label">Planning</div>
+        <div class="nav-link" onclick="navTo('goals')" data-page="goals">
+          <span class="nav-icon">🎯</span> Goals
+        </div>
+        <div class="nav-link" onclick="navTo('investments')" data-page="investments">
+          <span class="nav-icon">📈</span> Investments
+        </div>
+        <div class="nav-link" onclick="navTo('reports')" data-page="reports">
+          <span class="nav-icon">📊</span> Reports
+        </div>
+
+        <div class="nav-section-label">Explore</div>
+        <div class="nav-link" onclick="navTo('news')" data-page="news">
+          <span class="nav-icon">📰</span> Finance News
+        </div>
+        <div class="nav-link" onclick="navTo('community')" data-page="community">
+          <span class="nav-icon">💬</span> Community
+        </div>
+        <div class="nav-link" onclick="navTo('ai-advisor')" data-page="ai-advisor">
+          <span class="nav-icon">🤖</span> AI Advisor
+        </div>
+
+        <div class="nav-section-label">Account</div>
+        <div class="nav-link" onclick="navTo('profile')" data-page="profile">
+          <span class="nav-icon">👤</span> Profile
+        </div>
+        <div class="nav-link" onclick="navTo('settings')" data-page="settings">
+          <span class="nav-icon">⚙️</span> Settings
+        </div>
+        <div class="nav-link" onclick="navTo('support')" data-page="support">
+          <span class="nav-icon">🛟</span> Support
+        </div>
+        <div class="nav-link" onclick="handleLogout()" style="color:var(--rose)">
+          <span class="nav-icon">🚪</span> Logout
+        </div>
+      </nav>
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebar-avatar">FF</div>
+        <div>
+          <div class="sidebar-user-name" id="sidebar-name">Loading...</div>
+          <div class="sidebar-user-plan" id="sidebar-plan">Free Plan</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <div class="main-area">
+      <header class="topbar">
+        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+        <div>
+          <div class="topbar-title" id="topbar-title">Dashboard</div>
+          <div class="topbar-sub" id="topbar-sub">Good morning! Here's your financial overview.</div>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn btn-primary btn-sm" id="topbar-action-btn" onclick="openAddTransactionModal()">+ Add Transaction</button>
+        </div>
+      </header>
+
+      <!-- ── DASHBOARD ── -->
+      <div id="pg-dashboard" class="page-content">
+        <div class="g4 mb-24" id="dash-stats"></div>
+        <div class="g21 mb-24">
+          <div class="card">
+            <div class="section-hd">
+              <div><div class="section-title">Income vs Expenses</div><div class="section-sub">Last 6 months</div></div>
+              <div class="tabs-row" id="dash-chart-tabs">
+                <div class="tab-btn active" onclick="switchDashChart('bar',this)">Bar</div>
+                <div class="tab-btn" onclick="switchDashChart('line',this)">Line</div>
+              </div>
+            </div>
+            <div class="chart-wrap" style="height:240px"><canvas id="chart-monthly"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="section-hd"><div><div class="section-title">Spending by Category</div><div class="section-sub">This month</div></div></div>
+            <div class="chart-wrap" style="height:200px"><canvas id="chart-category"></canvas></div>
+          </div>
+        </div>
+        <div class="g2 mb-24">
+          <div class="card">
+            <div class="section-hd">
+              <div><div class="section-title">Recent Transactions</div></div>
+              <button class="btn btn-ghost btn-sm" onclick="navTo('transactions')">View all →</button>
+            </div>
+            <div id="dash-recent-tx"></div>
+          </div>
+          <div>
+            <div class="card mb-16">
+              <div class="section-hd"><div class="section-title">Financial Health</div></div>
+              <div class="health-ring-wrap" id="health-ring-wrap" style="width:140px;height:140px">
+                <svg width="140" height="140" viewBox="0 0 140 140">
+                  <circle cx="70" cy="70" r="58" fill="none" stroke="var(--border-light)" stroke-width="12"/>
+                  <circle id="health-ring" cx="70" cy="70" r="58" fill="none" stroke="var(--sage)" stroke-width="12" stroke-linecap="round" stroke-dasharray="364" stroke-dashoffset="364" style="transition:stroke-dashoffset 1.3s ease"/>
+                </svg>
+                <div class="health-ring-center"><div class="health-ring-pct" id="health-pct">0%</div><div class="health-ring-lbl">Health Score</div></div>
+              </div>
+              <div id="health-tips" class="mt-16"></div>
+            </div>
+            <div class="card">
+              <div class="section-hd"><div class="section-title">Active Goals</div><button class="btn btn-ghost btn-sm" onclick="navTo('goals')">All →</button></div>
+              <div id="dash-goals"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TRANSACTIONS ── -->
+      <div id="pg-transactions" class="page-content hidden">
+        <div class="flex-between mb-16">
+          <div class="tabs-row" id="tx-type-tabs">
+            <div class="tab-btn active" onclick="filterTx('all',this)">All</div>
+            <div class="tab-btn" onclick="filterTx('income',this)">Income</div>
+            <div class="tab-btn" onclick="filterTx('expense',this)">Expense</div>
+          </div>
+          <div class="flex gap-8">
+            <input type="text" class="form-input" id="tx-search" placeholder="🔍 Search..." style="width:200px" oninput="searchTx(this.value)">
+            <select class="form-input" id="tx-category-filter" style="width:160px" onchange="filterTxCategory(this.value)">
+              <option value="">All Categories</option>
+            </select>
+            <button class="btn btn-primary btn-sm" onclick="openAddTransactionModal()">+ Add</button>
+          </div>
+        </div>
+        <div class="card">
+          <div id="tx-list"></div>
+          <div class="flex-center mt-16 gap-8" id="tx-pagination"></div>
+        </div>
+      </div>
+
+      <!-- ── BUDGETS ── -->
+      <div id="pg-budgets" class="page-content hidden">
+        <div class="flex-between mb-16">
+          <div></div>
+          <button class="btn btn-primary btn-sm" onclick="openModal('modal-add-budget')">+ Add Budget</button>
+        </div>
+        <div id="budgets-grid" class="g3"></div>
+      </div>
+
+      <!-- ── GOALS ── -->
+      <div id="pg-goals" class="page-content hidden">
+        <div class="flex-between mb-16">
+          <div></div>
+          <button class="btn btn-primary btn-sm" onclick="openModal('modal-add-goal')">+ New Goal</button>
+        </div>
+        <div id="goals-grid" class="g3"></div>
+      </div>
+
+      <!-- ── INVESTMENTS ── -->
+      <div id="pg-investments" class="page-content hidden">
+        <div class="g4 mb-24">
+          <div class="stat-card sky"><div class="stat-icon sky">📈</div><div class="stat-label">Nifty 50</div><div class="stat-value">22,513</div><div class="stat-change up">↑ 0.84%</div></div>
+          <div class="stat-card sage"><div class="stat-icon sage">💰</div><div class="stat-label">Sensex</div><div class="stat-value">74,119</div><div class="stat-change up">↑ 0.72%</div></div>
+          <div class="stat-card gold"><div class="stat-icon gold">🥇</div><div class="stat-label">Gold (10g)</div><div class="stat-value">₹73,450</div><div class="stat-change up">↑ 1.2%</div></div>
+          <div class="stat-card rose"><div class="stat-icon rose">💵</div><div class="stat-label">USD/INR</div><div class="stat-value">83.47</div><div class="stat-change down">↓ 0.12%</div></div>
+        </div>
+        <div class="g12 mb-24">
+          <div class="card">
+            <div class="section-title mb-16">Your Risk Profile</div>
+            <div id="risk-profile-content"></div>
+          </div>
+          <div>
+            <div class="section-hd mb-16"><div class="section-title">Suggested Investments</div>
+              <div class="tabs-row">
+                <div class="tab-btn active" onclick="filterInvest('all',this)">All</div>
+                <div class="tab-btn" onclick="filterInvest('Mutual Fund',this)">MF</div>
+                <div class="tab-btn" onclick="filterInvest('SIP',this)">SIP</div>
+                <div class="tab-btn" onclick="filterInvest('ETF',this)">ETF</div>
+              </div>
+            </div>
+            <div id="invest-list" class="g2"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── REPORTS ── -->
+      <div id="pg-reports" class="page-content hidden">
+        <div class="g4 mb-24" id="reports-stats"></div>
+        <div class="g2 mb-24">
+          <div class="card">
+            <div class="section-hd"><div class="section-title">Monthly Trend</div></div>
+            <div class="chart-wrap" style="height:260px"><canvas id="chart-report-trend"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="section-hd"><div class="section-title">Category Distribution</div></div>
+            <div class="chart-wrap" style="height:260px"><canvas id="chart-report-pie"></canvas></div>
+          </div>
+        </div>
+        <div class="g2">
+          <div class="card">
+            <div class="section-hd"><div class="section-title">Top Expense Categories</div></div>
+            <div id="report-top-cats"></div>
+          </div>
+          <div class="card">
+            <div class="section-hd"><div class="section-title">Savings Rate</div></div>
+            <div class="chart-wrap" style="height:200px"><canvas id="chart-savings-rate"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── NEWS ── -->
+      <div id="pg-news" class="page-content hidden">
+        <div class="tabs-row mb-24">
+          <div class="tab-btn active" onclick="filterNews('all',this)">All</div>
+          <div class="tab-btn" onclick="filterNews('market',this)">Markets</div>
+          <div class="tab-btn" onclick="filterNews('personal',this)">Personal Finance</div>
+          <div class="tab-btn" onclick="filterNews('crypto',this)">Crypto</div>
+          <div class="tab-btn" onclick="filterNews('economy',this)">Economy</div>
+        </div>
+        <div id="news-grid" class="g3"></div>
+      </div>
+
+      <!-- ── COMMUNITY ── -->
+      <div id="pg-community" class="page-content hidden" style="padding:0">
+        <div class="community-layout">
+          <div class="chat-rooms">
+            <div class="chat-room-label">Channels</div>
+            <div class="chat-room-btn active" onclick="switchRoom('general',this)"><span class="chat-room-icon">#</span>general</div>
+            <div class="chat-room-btn" onclick="switchRoom('investing',this)"><span class="chat-room-icon">#</span>investing</div>
+            <div class="chat-room-btn" onclick="switchRoom('savings',this)"><span class="chat-room-icon">#</span>savings-tips</div>
+            <div class="chat-room-btn" onclick="switchRoom('goals',this)"><span class="chat-room-icon">#</span>goal-buddies</div>
+            <div class="chat-room-btn" onclick="switchRoom('crypto',this)"><span class="chat-room-icon">#</span>crypto-talk</div>
+            <div class="chat-room-label">Topics</div>
+            <div class="chat-room-btn" onclick="switchRoom('tax',this)"><span class="chat-room-icon">💬</span>Tax Planning</div>
+            <div class="chat-room-btn" onclick="switchRoom('realestate',this)"><span class="chat-room-icon">💬</span>Real Estate</div>
+            <div class="chat-room-btn" onclick="switchRoom('budgeting',this)"><span class="chat-room-icon">💬</span>Budgeting Help</div>
+          </div>
+          <div class="chat-panel">
+            <div class="topbar" style="position:relative;border-bottom:1px solid var(--border)">
+              <div>
+                <div style="font-weight:600;font-size:.95rem"># <span id="chat-room-name">general</span></div>
+                <div style="font-size:.75rem;color:var(--ink4)" id="chat-room-desc">General finance discussions</div>
+              </div>
+            </div>
+            <div class="chat-messages" id="chat-messages"></div>
+            <div class="chat-input-bar">
+              <textarea class="chat-input" id="chat-input" placeholder="Share your thoughts, ask a question..." rows="1" onkeydown="handleChatKey(event)"></textarea>
+              <button class="btn btn-primary" onclick="sendChatMessage()" id="chat-send-btn">Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── AI ADVISOR ── -->
+      <div id="pg-ai-advisor" class="page-content hidden" style="padding:0">
+        <div class="ai-chat">
+          <div style="padding:16px 20px;border-bottom:1px solid var(--border);background:var(--white)">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="width:40px;height:40px;border-radius:50%;background:var(--sage-light);display:flex;align-items:center;justify-content:center;font-size:1.3rem">🤖</div>
+              <div>
+                <div style="font-weight:600;font-size:.95rem">FinBot — AI Financial Advisor</div>
+                <div style="font-size:.76rem;color:var(--sage)">● Online — Ready to help</div>
+              </div>
+            </div>
+          </div>
+          <div class="ai-quick-prompts">
+            <span class="ai-quick" onclick="sendAiPrompt(this.textContent)">💰 How can I save more?</span>
+            <span class="ai-quick" onclick="sendAiPrompt(this.textContent)">📈 Where should I invest?</span>
+            <span class="ai-quick" onclick="sendAiPrompt(this.textContent)">🎯 Help me plan a budget</span>
+            <span class="ai-quick" onclick="sendAiPrompt(this.textContent)">🏠 Tips to buy a home</span>
+            <span class="ai-quick" onclick="sendAiPrompt(this.textContent)">💳 Reduce my debt</span>
+            <span class="ai-quick" onclick="sendAiPrompt(this.textContent)">📊 Analyze my spending</span>
+          </div>
+          <div class="ai-messages" id="ai-messages">
+            <div class="ai-msg">
+              <div class="ai-msg-icon bot">🤖</div>
+              <div class="ai-bubble bot">
+                <strong>Hello! I'm FinBot, your AI financial advisor.</strong><br><br>
+                I'm here to help you with budgeting, saving strategies, investment advice, and all things personal finance. What would you like to work on today?
+              </div>
+            </div>
+          </div>
+          <div class="ai-input-bar">
+            <input type="text" class="form-input" id="ai-input" placeholder="Ask me anything about your finances..." onkeydown="if(event.key==='Enter')sendAiMessage()" style="flex:1">
+            <button class="btn btn-primary" onclick="sendAiMessage()">Ask →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PROFILE ── -->
+      <div id="pg-profile" class="page-content hidden">
+        <div class="g21">
+          <div>
+            <div class="profile-cover"></div>
+            <div class="profile-header card" style="border-radius:0 0 var(--r-lg) var(--r-lg);border-top:none">
+              <div class="profile-avatar-wrap">
+                <div class="profile-avatar" id="profile-avatar">FF</div>
+              </div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700" id="profile-name">Loading...</div>
+              <div style="font-size:.85rem;color:var(--ink3);margin-top:4px" id="profile-email"></div>
+              <div style="font-size:.85rem;color:var(--ink3);margin-top:8px;line-height:1.5" id="profile-bio"></div>
+              <div class="flex gap-8 mt-16">
+                <span class="badge badge-sage" id="profile-plan-badge">Free Plan</span>
+                <span class="badge badge-ink" id="profile-joined"></span>
+              </div>
+            </div>
+            <div class="card mt-16">
+              <div class="section-title mb-16">Edit Profile</div>
+              <form onsubmit="saveProfile(event)">
+                <div class="form-group"><label class="form-label">Name</label><input type="text" id="edit-name" class="form-input"></div>
+                <div class="form-group"><label class="form-label">Bio</label><textarea id="edit-bio" class="form-input" rows="3"></textarea></div>
+                <div class="form-group"><label class="form-label">Monthly Income (₹)</label><input type="number" id="edit-income" class="form-input"></div>
+                <div class="form-group"><label class="form-label">Risk Appetite</label>
+                  <select id="edit-risk" class="form-input"><option>Low</option><option>Moderate</option><option>High</option></select>
+                </div>
+                <button type="submit" class="btn btn-primary w-full">Save Changes</button>
+              </form>
+            </div>
+          </div>
+          <div>
+            <div class="card mb-16">
+              <div class="section-title mb-16">Financial Summary</div>
+              <div id="profile-stats"></div>
+            </div>
+            <div class="card mb-16">
+              <div class="section-title mb-16">Change Password</div>
+              <form onsubmit="changePassword(event)">
+                <div class="form-group"><label class="form-label">Current Password</label><input type="password" id="cp-current" class="form-input"></div>
+                <div class="form-group"><label class="form-label">New Password</label><input type="password" id="cp-new" class="form-input"></div>
+                <div class="form-group"><label class="form-label">Confirm New Password</label><input type="password" id="cp-confirm" class="form-input"></div>
+                <button type="submit" class="btn btn-outline w-full">Update Password</button>
+              </form>
+            </div>
+            <div class="card">
+              <div class="section-title mb-4">Account Actions</div>
+              <p class="text-sm text-muted mb-16">Manage your account settings and data.</p>
+              <div class="flex gap-8">
+                <button class="btn btn-outline btn-sm" onclick="exportData()">📥 Export Data</button>
+                <button class="btn btn-danger btn-sm" onclick="confirmDeleteAccount()">🗑️ Delete Account</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SETTINGS ── -->
+      <div id="pg-settings" class="page-content hidden">
+        <div style="max-width:600px">
+          <div class="settings-section">
+            <div class="settings-section-hd">💱 Currency &amp; Display</div>
+            <div class="settings-row">
+              <div><div class="settings-row-label">Currency</div><div class="settings-row-desc">Your preferred currency display</div></div>
+              <select class="form-input" style="width:120px" id="setting-currency" onchange="saveSetting('currency',this.value)">
+                <option value="INR">₹ INR</option>
+                <option value="USD">$ USD</option>
+                <option value="EUR">€ EUR</option>
+              </select>
+            </div>
+            <div class="settings-row">
+              <div><div class="settings-row-label">Monthly Budget Alert</div><div class="settings-row-desc">Alert when you exceed this amount</div></div>
+              <input type="number" class="form-input" style="width:140px" id="setting-budget" placeholder="₹50,000" onchange="saveSetting('monthlyBudget',this.value)">
+            </div>
+          </div>
+          <div class="settings-section">
+            <div class="settings-section-hd">🔔 Notifications</div>
+            <div class="settings-row">
+              <div><div class="settings-row-label">Email Notifications</div><div class="settings-row-desc">Weekly financial summaries</div></div>
+              <label class="toggle"><input type="checkbox" id="setting-notif" onchange="saveSetting('notifications',this.checked)"><span class="sw"></span></label>
+            </div>
+          </div>
+          <div class="settings-section">
+            <div class="settings-section-hd">🌐 About</div>
+            <div class="settings-row">
+              <div><div class="settings-row-label">Version</div></div>
+              <span class="badge badge-ink">v1.0.0</span>
+            </div>
+            <div class="settings-row">
+              <div><div class="settings-row-label">Plan</div></div>
+              <span class="badge badge-sage" id="settings-plan-badge">Free</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SUPPORT ── -->
+      <div id="pg-support" class="page-content hidden">
+        <div class="g21">
+          <div>
+            <div class="card mb-16">
+              <div class="section-title mb-16">Submit a Support Request</div>
+              <form onsubmit="submitSupportTicket(event)">
+                <div class="form-group">
+                  <label class="form-label">Subject</label>
+                  <input type="text" id="sup-subject" class="form-input" placeholder="Briefly describe your issue" required>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Category</label>
+                    <select id="sup-category" class="form-input">
+                      <option>Technical</option>
+                      <option>Billing</option>
+                      <option>Feature Request</option>
+                      <option>Bug Report</option>
+                      <option>Account</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Priority</label>
+                    <select id="sup-priority" class="form-input">
+                      <option>Low</option>
+                      <option selected>Medium</option>
+                      <option>High</option>
+                      <option>Critical</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Message</label>
+                  <textarea id="sup-message" class="form-input" rows="5" placeholder="Describe your issue in detail..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary w-full" id="sup-submit-btn">Submit Ticket</button>
+              </form>
+            </div>
+            <div class="card">
+              <div class="section-title mb-4">Quick Help</div>
+              <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px">
+                <div class="tx-item" style="border:1px solid var(--border);border-radius:var(--r-sm)">
+                  <span style="font-size:1.3rem">📖</span>
+                  <div class="tx-desc"><div class="tx-desc-title">Getting Started Guide</div><div class="tx-desc-sub">Learn the basics of FinFolio</div></div>
+                  <span style="color:var(--ink4)">→</span>
+                </div>
+                <div class="tx-item" style="border:1px solid var(--border);border-radius:var(--r-sm)">
+                  <span style="font-size:1.3rem">❓</span>
+                  <div class="tx-desc"><div class="tx-desc-title">FAQ</div><div class="tx-desc-sub">Answers to common questions</div></div>
+                  <span style="color:var(--ink4)">→</span>
+                </div>
+                <div class="tx-item" style="border:1px solid var(--border);border-radius:var(--r-sm)">
+                  <span style="font-size:1.3rem">📧</span>
+                  <div class="tx-desc"><div class="tx-desc-title">Email Support</div><div class="tx-desc-sub">support@finfolio.in</div></div>
+                  <span style="color:var(--ink4)">→</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="section-hd"><div class="section-title">My Support Tickets</div><button class="btn btn-ghost btn-sm" onclick="loadSupportTickets()">Refresh</button></div>
+            <div id="tickets-list" class="mt-12"></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end main-area -->
+  </div><!-- end app-shell -->
+</div><!-- end s-app -->
+
+
+<!-- ═══════════════════════ MODALS ═══════════════════════ -->
+
+<!-- ADD / EDIT TRANSACTION MODAL -->
+<div class="modal-overlay" id="modal-add-tx" onclick="if(event.target===this)closeModal('modal-add-tx')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title" id="tx-modal-title">Add Transaction</div>
+      <div class="modal-close" onclick="closeModal('modal-add-tx')">✕</div>
+    </div>
+    <input type="hidden" id="tx-edit-id">
+    <div class="tabs-row mb-16">
+      <div class="tab-btn active" id="tx-type-income" onclick="setTxType('income')">💚 Income</div>
+      <div class="tab-btn" id="tx-type-expense" onclick="setTxType('expense')">🔴 Expense</div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Amount (₹) *</label>
+        <input type="number" id="tx-amount" class="form-input" placeholder="0.00" min="0.01" step="0.01" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Date *</label>
+        <input type="date" id="tx-date" class="form-input" required>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Category *</label>
+        <select id="tx-category" class="form-input"><option value="">Select category</option></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Payment Method</label>
+        <select id="tx-payment" class="form-input">
+          <option>UPI</option><option>Cash</option><option>Card</option><option>NetBanking</option><option>Wallet</option><option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Description</label>
+      <input type="text" id="tx-description" class="form-input" placeholder="What was this for?">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Note (optional)</label>
+      <textarea id="tx-note" class="form-input" rows="2" placeholder="Any additional notes..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-add-tx')">Cancel</button>
+      <button class="btn btn-primary" id="tx-save-btn" onclick="saveTransaction()">Add Transaction</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD GOAL MODAL -->
+<div class="modal-overlay" id="modal-add-goal" onclick="if(event.target===this)closeModal('modal-add-goal')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">New Financial Goal</div>
+      <div class="modal-close" onclick="closeModal('modal-add-goal')">✕</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Goal Title *</label>
+      <input type="text" id="goal-title" class="form-input" placeholder="e.g. Emergency Fund, Europe Trip">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Target Amount (₹) *</label>
+        <input type="number" id="goal-target" class="form-input" placeholder="100000">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Deadline *</label>
+        <input type="date" id="goal-deadline" class="form-input">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select id="goal-category" class="form-input">
+          <option>Emergency Fund</option><option>Travel</option><option>Education</option>
+          <option>Home</option><option>Vehicle</option><option>Wedding</option>
+          <option>Retirement</option><option>Business</option><option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Priority</label>
+        <select id="goal-priority" class="form-input"><option>Low</option><option selected>Medium</option><option>High</option></select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Description (optional)</label>
+      <textarea id="goal-desc" class="form-input" rows="2" placeholder="Why is this goal important to you?"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-add-goal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveGoal()">Create Goal</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONTRIBUTE TO GOAL MODAL -->
+<div class="modal-overlay" id="modal-contribute" onclick="if(event.target===this)closeModal('modal-contribute')">
+  <div class="modal-box" style="max-width:380px">
+    <div class="modal-header">
+      <div class="modal-title">Add Contribution</div>
+      <div class="modal-close" onclick="closeModal('modal-contribute')">✕</div>
+    </div>
+    <input type="hidden" id="contrib-goal-id">
+    <p class="text-sm text-muted mb-16">Adding money to: <strong id="contrib-goal-name"></strong></p>
+    <div class="form-group">
+      <label class="form-label">Amount (₹) *</label>
+      <input type="number" id="contrib-amount" class="form-input" placeholder="5000" min="1">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Note (optional)</label>
+      <input type="text" id="contrib-note" class="form-input" placeholder="e.g. Monthly savings">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-contribute')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveContribution()">Add Contribution</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD BUDGET MODAL -->
+<div class="modal-overlay" id="modal-add-budget" onclick="if(event.target===this)closeModal('modal-add-budget')">
+  <div class="modal-box" style="max-width:420px">
+    <div class="modal-header">
+      <div class="modal-title">Set Budget</div>
+      <div class="modal-close" onclick="closeModal('modal-add-budget')">✕</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Category *</label>
+      <select id="budget-category" class="form-input"><option value="">Select category</option></select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Monthly Limit (₹) *</label>
+      <input type="number" id="budget-limit" class="form-input" placeholder="10000">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Alert at (%)</label>
+      <input type="number" id="budget-alert" class="form-input" value="80" min="1" max="100">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-add-budget')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveBudget()">Create Budget</button>
+    </div>
+  </div>
+</div>
+
+<!-- TICKET DETAIL MODAL -->
+<div class="modal-overlay" id="modal-ticket" onclick="if(event.target===this)closeModal('modal-ticket')">
+  <div class="modal-box wide">
+    <div class="modal-header">
+      <div class="modal-title" id="ticket-modal-title">Support Ticket</div>
+      <div class="modal-close" onclick="closeModal('modal-ticket')">✕</div>
+    </div>
+    <div id="ticket-detail-content"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-ticket')">Close</button>
+      <button class="btn btn-primary" onclick="replyToTicket()">Send Reply</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
