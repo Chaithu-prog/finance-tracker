@@ -16,7 +16,18 @@ const API = {
       headers,
       body: body ? JSON.stringify(body) : undefined
     });
-    const data = await res.json();
+    let data;
+    const contentType = res.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      data = await res.json();
+    } else {
+      // Handle non-JSON responses (like HTML error pages)
+      const text = await res.text();
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}: ${text.substring(0, 100)}...`);
+      }
+      data = { message: text };
+    }
     if (!res.ok) throw new Error(data.message || 'Request failed');
     return data;
   },
@@ -1310,7 +1321,18 @@ const COACH_API = {
     const tok = this.getToken();
     if (tok) headers['Authorization'] = 'Bearer ' + tok;
     const res = await fetch(this.BASE + path, { method, headers, body: body ? JSON.stringify(body) : undefined });
-    const data = await res.json();
+    let data;
+    const contentType = res.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      data = await res.json();
+    } else {
+      // Handle non-JSON responses (like HTML error pages)
+      const text = await res.text();
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}: ${text.substring(0, 100)}...`);
+      }
+      data = { message: text };
+    }
     if (!res.ok) throw new Error(data.message || 'Request failed');
     return data;
   },
