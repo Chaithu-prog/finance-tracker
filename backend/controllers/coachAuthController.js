@@ -174,7 +174,7 @@ exports.getDashboardStats = async (req, res) => {
         const expense = monthlyExpense[0]?.total || 0;
         const savingsRate = income > 0 ? ((income - expense) / income * 100).toFixed(1) : 0;
         return { user, savingsRate: parseFloat(savingsRate) };
-      });
+      }));
       return enriched.sort((a,b) => b.savingsRate - a.savingsRate).slice(0,3);
     });
     const recentStudents = await Coach.findById(coachId).populate('assignedUsers', 'name email avatar').then(c => c.assignedUsers.slice(0,3).map(u => ({ user: u, monthlyIncome: 0, monthlyExpense: 0 })));
