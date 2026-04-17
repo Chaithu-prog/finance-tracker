@@ -18,11 +18,14 @@ const API = {
     });
     let data;
     const contentType = res.headers.get('content-type');
+    console.log(`API ${method} ${this.BASE + path}:`, res.status, contentType);
     if (contentType && contentType.includes('application/json')) {
       data = await res.json();
+      console.log('Parsed JSON:', data);
     } else {
       // Handle non-JSON responses (like HTML error pages)
       const text = await res.text();
+      console.log('Non-JSON response:', text.substring(0, 200));
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}: ${text.substring(0, 100)}...`);
       }
@@ -1329,11 +1332,14 @@ const COACH_API = {
     const res = await fetch(this.BASE + path, { method, headers, body: body ? JSON.stringify(body) : undefined });
     let data;
     const contentType = res.headers.get('content-type');
+    console.log(`COACH_API ${method} ${this.BASE + path}:`, res.status, contentType);
     if (contentType && contentType.includes('application/json')) {
       data = await res.json();
+      console.log('Parsed JSON:', data);
     } else {
       // Handle non-JSON responses (like HTML error pages)
       const text = await res.text();
+      console.log('Non-JSON response:', text.substring(0, 200));
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}: ${text.substring(0, 100)}...`);
       }
