@@ -1322,7 +1322,7 @@ async function submitSupportTicket(e) {
 // COACH API CLIENT
 // ═══════════════════════════════════
 const COACH_API = {
-  BASE: '/api',
+  BASE: API.BASE,
   getToken: () => localStorage.getItem('ff_coach_token'),
   setToken: (t) => t ? localStorage.setItem('ff_coach_token', t) : localStorage.removeItem('ff_coach_token'),
   async req(method, path, body) {
