@@ -42,6 +42,12 @@ app.use('/api/budgets', require('./routes/budgets'));
 app.use('/api/chat', require('./routes/chat'));
 app.use('/api/support', require('./routes/support'));
 
+app.use('/api/coach/auth', require('./routes/coachAuth'));
+app.use('/api/tasks', require('./routes/tasks'));
+app.use('/api/coach-messages', require('./routes/coachMessages'));
+app.use('/api/coach-sessions', require('./routes/coachSessions'));
+app.use('/api/coach-notes', require('./routes/coachNotes'));
+
 app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'FinFolio API is running.', timestamp: new Date().toISOString() });
 });

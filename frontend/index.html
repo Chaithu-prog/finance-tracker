@@ -26,6 +26,7 @@
         <a class="land-nav-link" onclick="scrollTo(0,600)">Features</a>
         <a class="land-nav-link" onclick="scrollTo(0,1400)">Reviews</a>
         <a class="land-nav-link" href="#" onclick="showScreen('s-app');return false">Community</a>
+        <a class="land-nav-link" onclick="showScreen('s-coach-login')" style="color:var(--sage);font-weight:600">FinCoach Login</a>
       </div>
       <div class="land-nav-actions">
         <button class="btn btn-outline btn-sm" onclick="showScreen('s-login')">Sign In</button>
@@ -42,6 +43,7 @@
           <button class="btn btn-primary btn-lg" onclick="showScreen('s-register')">Start for Free →</button>
           <button class="btn btn-outline btn-lg" onclick="showScreen('s-login')">Sign In</button>
         </div>
+        <div style="margin-top:12px;font-size:.82rem;color:var(--ink3)">Are you a financial coach? <a onclick="showScreen('s-coach-login')" style="color:var(--sage);cursor:pointer;font-weight:600">Coach Portal →</a></div>
         <div class="hero-stats">
           <div>
             <div class="hero-stat-val">₹4.2Cr+</div>
@@ -328,6 +330,14 @@
         </div>
         <div class="nav-link" onclick="navTo('support')" data-page="support">
           <span class="nav-icon">🛟</span> Support
+        </div>
+        <div class="nav-link" onclick="navTo('my-coach')" data-page="my-coach">
+          <span class="nav-icon">👨‍💼</span> My FinCoach
+          <span class="nav-badge" id="coach-msg-badge" style="display:none">!</span>
+        </div>
+        <div class="nav-link" onclick="navTo('my-tasks')" data-page="my-tasks">
+          <span class="nav-icon">📋</span> My Tasks
+          <span class="nav-badge" id="user-tasks-badge" style="display:none">0</span>
         </div>
         <div class="nav-link" onclick="handleLogout()" style="color:var(--rose)">
           <span class="nav-icon">🚪</span> Logout
@@ -736,9 +746,267 @@
         </div>
       </div>
 
+      <div id="pg-my-coach" class="page-content hidden">
+        <div id="my-coach-content"></div>
+      </div>
+
+      <div id="pg-my-tasks" class="page-content hidden">
+        <div class="flex-between mb-16">
+          <div id="task-progress-summary"></div>
+        </div>
+        <div class="tabs-row mb-20" id="user-task-tabs">
+          <div class="tab-btn active" onclick="filterUserTasks('',this)">All</div>
+          <div class="tab-btn" onclick="filterUserTasks('assigned',this)">To Do</div>
+          <div class="tab-btn" onclick="filterUserTasks('in-progress',this)">In Progress</div>
+          <div class="tab-btn" onclick="filterUserTasks('submitted',this)">Submitted</div>
+          <div class="tab-btn" onclick="filterUserTasks('approved',this)">Completed ✅</div>
+        </div>
+        <div id="user-tasks-grid" class="g2"></div>
+      </div>
+
     </div><!-- end main-area -->
   </div><!-- end app-shell -->
 </div><!-- end s-app -->
+
+<!-- ── COACH LOGIN SCREEN ── -->
+<div id="s-coach-login" class="screen auth-screen">
+  <div class="auth-left" style="background:linear-gradient(160deg,#0A1520 0%,#0D1B2A 50%,#162236 100%)">
+    <div style="position:relative;z-index:1">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:#fff;margin-bottom:8px">
+        Fin<span style="color:#2DCCA7">Coach</span>
+      </div>
+      <div style="font-size:1rem;color:rgba(255,255,255,.7);margin-bottom:48px">Your students. Your impact.</div>
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="display:flex;align-items:flex-start;gap:12px">
+          <div style="width:36px;height:36px;background:rgba(45,204,167,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">👥</div>
+          <div><span style="font-weight:600;color:#fff;display:block;font-size:.9rem">Monitor All Students</span><span style="font-size:.85rem;color:rgba(255,255,255,.65)">See every student's income, expenses, and savings in one place</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:12px">
+          <div style="width:36px;height:36px;background:rgba(45,204,167,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">📋</div>
+          <div><span style="font-weight:600;color:#fff;display:block;font-size:.9rem">Assign Financial Tasks</span><span style="font-size:.85rem;color:rgba(255,255,255,.65)">Create challenges, track submissions, give feedback</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:12px">
+          <div style="width:36px;height:36px;background:rgba(45,204,167,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">💬</div>
+          <div><span style="font-weight:600;color:#fff;display:block;font-size:.9rem">1-on-1 Coaching Chat</span><span style="font-size:.85rem;color:rgba(255,255,255,.65)">Send tips, alerts, and guidance directly to each student</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:12px">
+          <div style="width:36px;height:36px;background:rgba(45,204,167,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">📊</div>
+          <div><span style="font-weight:600;color:#fff;display:block;font-size:.9rem">Analytics Dashboard</span><span style="font-size:.85rem;color:rgba(255,255,255,.65)">Track cohort performance with charts and insights</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="auth-right">
+    <div class="auth-form-wrap">
+      <h2 class="auth-form-title">Coach Login</h2>
+      <p class="auth-form-sub">Sign in to your FinCoach dashboard</p>
+      <form id="coach-login-form" onsubmit="handleCoachLogin(event)">
+        <div class="form-group"><label class="form-label">Coach Email</label><input type="email" id="coach-login-email" class="form-input" placeholder="coach@example.com" required></div>
+        <div class="form-group"><label class="form-label">Password</label><input type="password" id="coach-login-password" class="form-input" placeholder="Your password" required></div>
+        <div id="coach-login-error" class="form-error mb-16" style="display:none"></div>
+        <button type="submit" id="coach-login-btn" class="btn btn-primary w-full" style="background:#2DCCA7;color:#0D1B2A;font-weight:700">Sign In as FinCoach</button>
+      </form>
+      <div class="auth-switch" style="margin-top:16px">New coach? <a onclick="showScreen('s-coach-register')" style="color:#2DCCA7">Create account</a></div>
+      <div class="auth-switch mt-8"><a onclick="showScreen('s-login')" style="color:var(--ink4);font-weight:400">← Student / User login</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── COACH REGISTER SCREEN ── -->
+<div id="s-coach-register" class="screen auth-screen">
+  <div class="auth-left" style="background:linear-gradient(160deg,#0A1520 0%,#0D1B2A 50%,#162236 100%)">
+    <div style="position:relative;z-index:1">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:#fff;margin-bottom:8px">Join as<br><span style="color:#2DCCA7">FinCoach</span></div>
+      <div style="font-size:.95rem;color:rgba(255,255,255,.7);margin-bottom:32px">Guide students to financial freedom</div>
+      <div style="background:rgba(45,204,167,.1);border:1px solid rgba(45,204,167,.3);border-radius:12px;padding:16px;margin-top:16px">
+        <div style="font-size:.85rem;color:#2DCCA7;font-weight:600;margin-bottom:8px">✅ Coach Account Includes:</div>
+        <div style="font-size:.82rem;color:rgba(255,255,255,.7);display:flex;flex-direction:column;gap:6px">
+          <span>• Unlimited student assignments</span>
+          <span>• Task creation and grading</span>
+          <span>• 1-on-1 messaging with students</span>
+          <span>• Full cohort analytics dashboard</span>
+          <span>• Private notes per student</span>
+          <span>• Session scheduling tools</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="auth-right">
+    <div class="auth-form-wrap">
+      <h2 class="auth-form-title">Create Coach Account</h2>
+      <p class="auth-form-sub">Start coaching students in under 60 seconds</p>
+      <form id="coach-register-form" onsubmit="handleCoachRegister(event)">
+        <div class="form-group"><label class="form-label">Full Name</label><input type="text" id="coach-reg-name" class="form-input" placeholder="Dr. Ramesh Sharma" required></div>
+        <div class="form-group"><label class="form-label">Email</label><input type="email" id="coach-reg-email" class="form-input" placeholder="coach@example.com" required></div>
+        <div class="form-group"><label class="form-label">Specialization (comma-separated)</label><input type="text" id="coach-reg-spec" class="form-input" placeholder="Personal Finance, Investing, Tax Planning"></div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Password</label><input type="password" id="coach-reg-password" class="form-input" placeholder="Min 6 chars" required></div>
+          <div class="form-group"><label class="form-label">Confirm</label><input type="password" id="coach-reg-confirm" class="form-input" placeholder="Repeat" required></div>
+        </div>
+        <div id="coach-reg-error" class="form-error mb-16" style="display:none"></div>
+        <button type="submit" id="coach-reg-btn" class="btn btn-primary w-full" style="background:#2DCCA7;color:#0D1B2A;font-weight:700">Create Coach Account →</button>
+      </form>
+      <div class="auth-switch mt-12"><a onclick="showScreen('s-coach-login')" style="color:#2DCCA7">Already have an account? Sign in</a></div>
+      <div class="auth-switch mt-8"><a onclick="showScreen('s-landing')" style="color:var(--ink4);font-weight:400">← Back to home</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── COACH APP SCREEN ── -->
+<div id="s-coach-app" class="screen">
+  <div class="coach-app-shell">
+    <aside class="coach-sidebar" id="coach-sidebar">
+      <div class="coach-sidebar-brand">
+        <div class="coach-sidebar-brand-name">Fin<span class="coach-sidebar-brand-dot">Coach</span></div>
+        <div class="coach-sidebar-brand-tag">Financial Coaching Platform</div>
+      </div>
+      <nav style="flex:1;padding:14px 10px;overflow-y:auto">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#3A5570;font-weight:600;padding:12px 10px 6px">Dashboard</div>
+        <div class="coach-nav-link active" onclick="navToCoach('coach-overview')" data-cpage="coach-overview"><span class="nav-icon">🏠</span> Overview</div>
+        <div class="coach-nav-link" onclick="navToCoach('coach-students')" data-cpage="coach-students"><span class="nav-icon">👥</span> My Students</div>
+        <div class="coach-nav-link" onclick="navToCoach('coach-tasks')" data-cpage="coach-tasks"><span class="nav-icon">📋</span> Tasks</div>
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#3A5570;font-weight:600;padding:12px 10px 6px">Communication</div>
+        <div class="coach-nav-link" onclick="navToCoach('coach-messages')" data-cpage="coach-messages"><span class="nav-icon">💬</span> Messages <span id="coach-unread-badge" class="nav-badge" style="display:none">0</span></div>
+        <div class="coach-nav-link" onclick="navToCoach('coach-sessions')" data-cpage="coach-sessions"><span class="nav-icon">📅</span> Sessions</div>
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#3A5570;font-weight:600;padding:12px 10px 6px">Insights</div>
+        <div class="coach-nav-link" onclick="navToCoach('coach-analytics')" data-cpage="coach-analytics"><span class="nav-icon">📊</span> Analytics</div>
+        <div class="coach-nav-link" onclick="navToCoach('coach-profile')" data-cpage="coach-profile"><span class="nav-icon">⚙️</span> Profile</div>
+        <div class="coach-nav-link" onclick="handleCoachLogout()" style="color:var(--rose);margin-top:8px"><span class="nav-icon">🚪</span> Logout</div>
+      </nav>
+      <div style="padding:14px 16px;border-top:1px solid #1E3352;display:flex;align-items:center;gap:10px">
+        <div style="width:36px;height:36px;border-radius:50%;background:rgba(45,204,167,.2);color:#2DCCA7;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;flex-shrink:0" id="coach-sidebar-avatar">FC</div>
+        <div><div style="font-weight:600;font-size:.85rem;color:#fff" id="coach-sidebar-name">Loading...</div><div style="font-size:.72rem;color:#3A5570">FinCoach</div></div>
+      </div>
+    </aside>
+    <div class="coach-main-area">
+      <header class="coach-topbar">
+        <div>
+          <div class="coach-topbar-title" id="coach-topbar-title">Overview</div>
+          <div class="coach-topbar-sub" id="coach-topbar-sub">Your coaching dashboard</div>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+          <button class="btn btn-sm" id="coach-topbar-btn" style="background:#2DCCA7;color:#0D1B2A;font-weight:700;display:none"></button>
+        </div>
+      </header>
+
+      <!-- OVERVIEW PAGE -->
+      <div id="pg-coach-overview" class="coach-page-content">
+        <div class="g4 mb-24" id="coach-overview-stats"></div>
+        <div class="g21 mb-24">
+          <div class="coach-card">
+            <div class="section-hd mb-16"><div><div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:#fff">Recent Student Activity</div></div><button class="btn btn-ghost btn-sm" onclick="navToCoach('coach-students')" style="color:#2DCCA7">All Students →</button></div>
+            <div id="coach-recent-students"></div>
+          </div>
+          <div>
+            <div class="coach-card mb-16">
+              <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:#fff;margin-bottom:14px">⏳ Pending Reviews</div>
+              <div id="coach-pending-tasks"></div>
+            </div>
+            <div class="coach-card">
+              <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:#fff;margin-bottom:14px">📅 Upcoming Sessions</div>
+              <div id="coach-upcoming-sessions"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STUDENTS PAGE -->
+      <div id="pg-coach-students" class="coach-page-content hidden">
+        <div class="flex-between mb-20">
+          <input type="text" class="coach-form-input" style="width:280px" placeholder="🔍 Search students..." oninput="filterStudents(this.value)">
+          <button class="btn btn-sm btn-coach-primary" onclick="openCoachModal('modal-assign-student')">+ Assign Student</button>
+        </div>
+        <div id="students-grid" class="g3"></div>
+      </div>
+
+      <!-- TASKS PAGE -->
+      <div id="pg-coach-tasks" class="coach-page-content hidden">
+        <div class="flex-between mb-16">
+          <div class="tabs-row" id="coach-task-tabs">
+            <div class="tab-btn active" onclick="filterCoachTasks('',this)">All</div>
+            <div class="tab-btn" onclick="filterCoachTasks('assigned',this)">Assigned</div>
+            <div class="tab-btn" onclick="filterCoachTasks('in-progress',this)">In Progress</div>
+            <div class="tab-btn" onclick="filterCoachTasks('submitted',this)" id="submitted-tab">Submitted</div>
+            <div class="tab-btn" onclick="filterCoachTasks('approved',this)">Approved</div>
+            <div class="tab-btn" onclick="filterCoachTasks('rejected',this)">Rejected</div>
+          </div>
+          <button class="btn btn-sm btn-coach-primary" onclick="openCoachModal('modal-create-task')">+ Create Task</button>
+        </div>
+        <div class="coach-card" style="padding:0">
+          <div id="coach-tasks-list"></div>
+        </div>
+      </div>
+
+      <!-- MESSAGES PAGE -->
+      <div id="pg-coach-messages" class="coach-page-content hidden" style="padding:0">
+        <div style="display:grid;grid-template-columns:260px 1fr;height:calc(100vh - 60px)">
+          <div style="border-right:1px solid var(--coach-border);overflow-y:auto;background:#0A1520">
+            <div style="padding:16px 14px;border-bottom:1px solid var(--coach-border)">
+              <div style="font-weight:600;font-size:.9rem;color:#fff">Conversations</div>
+            </div>
+            <div id="coach-inbox-list"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;background:var(--coach-bg)" id="coach-chat-area">
+            <div style="flex:1;display:flex;align-items:center;justify-content:center;color:var(--coach-muted)">
+              <div style="text-align:center"><div style="font-size:2.5rem;margin-bottom:12px">💬</div><div>Select a student to start messaging</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SESSIONS PAGE -->
+      <div id="pg-coach-sessions" class="coach-page-content hidden">
+        <div class="flex-between mb-20">
+          <div style="font-size:.9rem;color:var(--coach-muted)">Manage your coaching sessions</div>
+          <button class="btn btn-sm btn-coach-primary" onclick="openCoachModal('modal-schedule-session')">+ Schedule Session</button>
+        </div>
+        <div id="sessions-list" class="g2"></div>
+      </div>
+
+      <!-- ANALYTICS PAGE -->
+      <div id="pg-coach-analytics" class="coach-page-content hidden">
+        <div class="g2 mb-24">
+          <div class="coach-card">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:#fff;margin-bottom:14px">Tasks by Status</div>
+            <div style="height:220px"><canvas id="chart-coach-tasks-status"></canvas></div>
+          </div>
+          <div class="coach-card">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:#fff;margin-bottom:14px">Tasks by Category</div>
+            <div style="height:220px"><canvas id="chart-coach-tasks-cat"></canvas></div>
+          </div>
+        </div>
+        <div class="coach-card mb-24">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:#fff;margin-bottom:14px">Student Savings Rates</div>
+          <div style="height:220px"><canvas id="chart-coach-savings"></canvas></div>
+        </div>
+        <div class="coach-card">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:#fff;margin-bottom:14px">🏆 Top Performing Students</div>
+          <div id="coach-top-students"></div>
+        </div>
+      </div>
+
+      <!-- PROFILE PAGE -->
+      <div id="pg-coach-profile" class="coach-page-content hidden">
+        <div class="g2" style="max-width:800px">
+          <div class="coach-card">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:#fff;margin-bottom:18px">Edit Profile</div>
+            <form onsubmit="saveCoachProfile(event)">
+              <div style="margin-bottom:14px"><label class="coach-form-label">Name</label><input type="text" id="coach-edit-name" class="coach-form-input"></div>
+              <div style="margin-bottom:14px"><label class="coach-form-label">Bio</label><textarea id="coach-edit-bio" class="coach-form-input" rows="3"></textarea></div>
+              <div style="margin-bottom:14px"><label class="coach-form-label">Specialization</label><input type="text" id="coach-edit-spec" class="coach-form-input" placeholder="Comma-separated"></div>
+              <button type="submit" class="btn btn-coach-primary w-full">Save Changes</button>
+            </form>
+          </div>
+          <div class="coach-card">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:#fff;margin-bottom:18px">Coach Stats</div>
+            <div id="coach-profile-stats"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 
 <!-- ═══════════════════════ MODALS ═══════════════════════ -->
@@ -899,6 +1167,104 @@
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('modal-ticket')">Close</button>
       <button class="btn btn-primary" onclick="replyToTicket()">Send Reply</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Create Task (Coach) -->
+<div class="coach-modal-overlay" id="modal-create-task" onclick="if(event.target===this)closeCoachModal('modal-create-task')">
+  <div class="coach-modal-box" style="max-width:540px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+      <div class="coach-modal-title">Create Financial Task</div>
+      <div class="modal-close" onclick="closeCoachModal('modal-create-task')" style="background:var(--coach-border);color:#fff">✕</div>
+    </div>
+    <div style="margin-bottom:14px"><label class="coach-form-label">Assign to Student *</label><select id="ct-user" class="coach-form-input"></select></div>
+    <div style="margin-bottom:14px"><label class="coach-form-label">Task Title *</label><input type="text" id="ct-title" class="coach-form-input" placeholder="e.g. Save ₹5,000 this month"></div>
+    <div style="margin-bottom:14px"><label class="coach-form-label">Description</label><textarea id="ct-desc" class="coach-form-input" rows="3" placeholder="Explain what the student should do..."></textarea></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+      <div><label class="coach-form-label">Category</label><select id="ct-category" class="coach-form-input"><option>Saving</option><option>Budgeting</option><option>Investing</option><option>Debt Reduction</option><option>Income Growth</option><option>Credit Management</option><option>Smart Spending</option><option>Emergency Fund</option></select></div>
+      <div><label class="coach-form-label">Difficulty</label><select id="ct-difficulty" class="coach-form-input"><option>Easy</option><option selected>Medium</option><option>Hard</option></select></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px">
+      <div><label class="coach-form-label">Due Date *</label><input type="date" id="ct-due" class="coach-form-input"></div>
+      <div><label class="coach-form-label">Points</label><input type="number" id="ct-points" class="coach-form-input" value="10" min="5" max="100"></div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button class="btn btn-ghost" onclick="closeCoachModal('modal-create-task')" style="color:#8BA3BF">Cancel</button>
+      <button class="btn btn-coach-primary" onclick="createTask()">Create Task</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Submit Task (User) -->
+<div class="modal-overlay" id="modal-submit-task" onclick="if(event.target===this)closeModal('modal-submit-task')">
+  <div class="modal-box" style="max-width:420px">
+    <div class="modal-header"><div class="modal-title">Submit Task</div><div class="modal-close" onclick="closeModal('modal-submit-task')">✕</div></div>
+    <input type="hidden" id="submit-task-id">
+    <p class="text-sm text-muted mb-16">Submitting: <strong id="submit-task-title"></strong></p>
+    <div class="form-group"><label class="form-label">What did you do? *</label><textarea id="submit-task-note" class="form-input" rows="4" placeholder="Describe what you did, what you learned, and any results achieved..."></textarea></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-submit-task')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitUserTask()">Submit for Review</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Assign Student (Coach) -->
+<div class="coach-modal-overlay" id="modal-assign-student" onclick="if(event.target===this)closeCoachModal('modal-assign-student')">
+  <div class="coach-modal-box" style="max-width:400px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+      <div class="coach-modal-title">Assign Student</div>
+      <div class="modal-close" onclick="closeCoachModal('modal-assign-student')" style="background:var(--coach-border);color:#fff">✕</div>
+    </div>
+    <p style="font-size:.88rem;color:var(--coach-muted);margin-bottom:18px">Enter the email address of the FinFolio user you want to coach.</p>
+    <div style="margin-bottom:18px"><label class="coach-form-label">Student Email *</label><input type="email" id="assign-student-email" class="coach-form-input" placeholder="student@example.com"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button class="btn btn-ghost" onclick="closeCoachModal('modal-assign-student')" style="color:#8BA3BF">Cancel</button>
+      <button class="btn btn-coach-primary" onclick="assignStudent()">Assign Student</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Coach Feedback (Approve/Reject) -->
+<div class="coach-modal-overlay" id="modal-coach-feedback" onclick="if(event.target===this)closeCoachModal('modal-coach-feedback')">
+  <div class="coach-modal-box" style="max-width:440px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+      <div class="coach-modal-title" id="feedback-modal-title">Review Task</div>
+      <div class="modal-close" onclick="closeCoachModal('modal-coach-feedback')" style="background:var(--coach-border);color:#fff">✕</div>
+    </div>
+    <input type="hidden" id="feedback-task-id">
+    <input type="hidden" id="feedback-action">
+    <p style="font-size:.88rem;color:var(--coach-muted);margin-bottom:6px">Student submission: <strong id="feedback-submission-note" style="color:#fff"></strong></p>
+    <div style="margin-bottom:18px;margin-top:14px"><label class="coach-form-label">Your Feedback *</label><textarea id="coach-feedback-text" class="coach-form-input" rows="3" placeholder="Provide constructive feedback for the student..."></textarea></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button class="btn btn-ghost" onclick="closeCoachModal('modal-coach-feedback')" style="color:#8BA3BF">Cancel</button>
+      <button class="btn btn-coach-primary" id="feedback-submit-btn" onclick="submitTaskFeedback()">Submit</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Schedule Session (Coach) -->
+<div class="coach-modal-overlay" id="modal-schedule-session" onclick="if(event.target===this)closeCoachModal('modal-schedule-session')">
+  <div class="coach-modal-box" style="max-width:500px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+      <div class="coach-modal-title">Schedule Session</div>
+      <div class="modal-close" onclick="closeCoachModal('modal-schedule-session')" style="background:var(--coach-border);color:#fff">✕</div>
+    </div>
+    <div style="margin-bottom:14px"><label class="coach-form-label">Student</label><select id="ss-user" class="coach-form-input"></select></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+      <div><label class="coach-form-label">Session Type</label><select id="ss-type" class="coach-form-input"><option>Chat Session</option><option>Audio Call</option><option>Video Call</option></select></div>
+      <div><label class="coach-form-label">Duration (min)</label><select id="ss-duration" class="coach-form-input"><option>30</option><option>45</option><option>60</option></select></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+      <div><label class="coach-form-label">Date</label><input type="date" id="ss-date" class="coach-form-input"></div>
+      <div><label class="coach-form-label">Time</label><input type="time" id="ss-time" class="coach-form-input"></div>
+    </div>
+    <div style="margin-bottom:14px"><label class="coach-form-label">Meeting Link (optional)</label><input type="text" id="ss-link" class="coach-form-input" placeholder="https://meet.google.com/..."></div>
+    <div style="margin-bottom:20px"><label class="coach-form-label">Notes / Agenda</label><textarea id="ss-notes" class="coach-form-input" rows="2" placeholder="What will you discuss?"></textarea></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button class="btn btn-ghost" onclick="closeCoachModal('modal-schedule-session')" style="color:#8BA3BF">Cancel</button>
+      <button class="btn btn-coach-primary" onclick="scheduleSession()">Schedule</button>
     </div>
   </div>
 </div>
