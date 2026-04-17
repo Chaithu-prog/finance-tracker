@@ -28,7 +28,7 @@ const API = {
       }
       data = { message: text };
     }
-    if (!res.ok) throw new Error(data.message || 'Request failed');
+    if (!res.ok) throw new Error(data.message || data.error || 'Request failed');
     return data;
   },
   get: (p) => API.req('GET', p),
@@ -240,6 +240,9 @@ async function handleLogin(e) {
       email: ge('login-email').value,
       password: ge('login-password').value
     });
+    if (!res.data || !res.data.token) {
+      throw new Error('Invalid response from server');
+    }
     API.setToken(res.data.token);
     S.user = res.data.user;
     toast('Welcome back, ' + S.user.name + '!', 'success');
@@ -279,6 +282,9 @@ async function handleRegister(e) {
   btn.textContent = 'Creating account...';
   try {
     const res = await API.post('/auth/register', { name, email, password });
+    if (!res.data || !res.data.token) {
+      throw new Error('Invalid response from server');
+    }
     API.setToken(res.data.token);
     S.user = res.data.user;
     toast('Welcome to FinFolio, ' + S.user.name + '!', 'success');
@@ -1333,7 +1339,7 @@ const COACH_API = {
       }
       data = { message: text };
     }
-    if (!res.ok) throw new Error(data.message || 'Request failed');
+    if (!res.ok) throw new Error(data.message || data.error || 'Request failed');
     return data;
   },
   get: (p) => COACH_API.req('GET', p),
@@ -1406,6 +1412,9 @@ async function handleCoachLogin(e) {
       email: ge('coach-login-email').value,
       password: ge('coach-login-password').value
     });
+    if (!res.data || !res.data.token) {
+      throw new Error('Invalid response from server');
+    }
     COACH_API.setToken(res.data.token);
     CS.coach = res.data.coach;
     toast('Welcome back, Coach ' + CS.coach.name + '!', 'success');
@@ -1433,6 +1442,9 @@ async function handleCoachRegister(e) {
       password: pass,
       specialization: ge('coach-reg-spec').value
     });
+    if (!res.data || !res.data.token) {
+      throw new Error('Invalid response from server');
+    }
     COACH_API.setToken(res.data.token);
     CS.coach = res.data.coach;
     toast('Welcome to FinCoach!', 'success');
