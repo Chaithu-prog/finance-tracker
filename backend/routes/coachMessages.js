@@ -37,6 +37,7 @@ const allowUserOrCoach = async (req, res, next) => {
 
 router.get('/inbox', protectCoach, ctrl.getCoachInbox);
 router.get('/unread', allowUserOrCoach, ctrl.getUnreadCount);
+router.get('/coach-info', protect, ctrl.getAssignedCoach);
 router.get('/coach/:userId', protectCoach, ctrl.getConversation);
 router.get('/user/:coachId', protect, ctrl.getConversation);
 router.post('/', allowUserOrCoach, [

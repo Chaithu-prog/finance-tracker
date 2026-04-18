@@ -124,9 +124,16 @@ exports.assignUser = async (req, res) => {
     if (coach.assignedUsers.includes(user._id)) {
       return res.status(400).json({ message: 'User already assigned' });
     }
+    // Update coach's assigned users
     coach.assignedUsers.push(user._id);
     coach.totalStudents += 1;
     await coach.save();
+    
+    // Update user's assigned coach
+    user.assignedCoach = req.coach._id;
+    user.coachTrialStart = new Date();
+    await user.save();
+    
     res.json({ success: true, data: coach });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -138,8 +145,11 @@ exports.removeUser = async (req, res) => {
     const coach = await Coach.findById(req.coach._id);
     coach.assignedUsers = coach.assignedUsers.filter(id => id.toString() !== req.params.userId);
     coach.totalStudents = Math.max(0, coach.totalStudents - 1);
-    await coach.save();
-    res.json({ success: true, message: 'User removed' });
+    await coach.save();    
+    // Clear user's assigned coach
+    const User = require('../models/User');
+    await User.findByIdAndUpdate(req.params.userId, { assignedCoach: null, coachTrialStart: null });
+        res.json({ success: true, message: 'User removed' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

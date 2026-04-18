@@ -10,6 +10,8 @@ const userSchema = new mongoose.Schema({
   plan: { type: String, enum: ['Free', 'Pro'], default: 'Free' },
   isActive: { type: Boolean, default: true },
   lastLogin: { type: Date },
+  assignedCoach: { type: mongoose.Schema.Types.ObjectId, ref: 'Coach', default: null },
+  coachTrialStart: { type: Date, default: null },
   preferences: {
     currency: { type: String, default: 'INR' },
     theme: { type: String, default: 'light' },

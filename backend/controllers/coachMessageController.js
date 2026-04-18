@@ -21,6 +21,21 @@ exports.getConversation = async (req, res) => {
   }
 };
 
+exports.getAssignedCoach = async (req, res) => {
+  try {
+    if (!req.user || !req.user.assignedCoach) {
+      return res.status(404).json({ message: 'No coach assigned' });
+    }
+    const coach = await Coach.findById(req.user.assignedCoach).select('name email avatar bio specialization rating');
+    if (!coach) {
+      return res.status(404).json({ message: 'Assigned coach not found' });
+    }
+    res.json({ success: true, data: coach });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 exports.sendMessage = async (req, res) => {
   try {
     const { userId, message, messageType } = req.body;

@@ -2003,14 +2003,121 @@ async function loadMyCoach() {
   if (!container) return;
   container.innerHTML = '<div class="loader"><div class="spinner"></div></div>';
   try {
-    // Check if user has been assigned a coach by getting their messages
-    const res = await API.get('/coach-messages/unread');
-    // Try to get conversation — if coach is assigned, messages will exist
-    // Show coach connection panel
-    renderMyCoachPanel();
-  } catch (_) {
+    // Check if user has an assigned coach
+    if (S.user && S.user.assignedCoach) {
+      // User has a coach assigned - show coach interface
+      await loadAssignedCoach();
+    } else {
+      // No coach assigned - show coach connection panel
+      renderMyCoachPanel();
+    }
+  } catch (error) {
+    console.error('Error loading coach:', error);
     renderMyCoachPanel();
   }
+}
+
+async function loadAssignedCoach() {
+  const container = ge('my-coach-content');
+  if (!container) return;
+
+  try {
+    // Get coach details
+    const coachRes = await API.get('/coach-messages/coach-info');
+    const coach = coachRes.data;
+
+    // Get user's tasks
+    const tasksRes = await API.get('/tasks');
+    const tasks = tasksRes.data || [];
+
+    // Get unread message count
+    const unreadRes = await API.get('/coach-messages/unread');
+    const unreadCount = unreadRes.data?.count || 0;
+
+    container.innerHTML = `
+      <div class="card mb-16">
+        <div style="display:flex;align-items:center;gap:14px;padding:16px">
+          <div style="width:50px;height:50px;border-radius:50%;background:var(--sage);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.2rem">
+            ${coach.avatar ? `<img src="${coach.avatar}" style="width:100%;height:100%;border-radius:50%;object-fit:cover">` : '👨‍💼'}
+          </div>
+          <div style="flex:1">
+            <div style="font-weight:600;font-size:1.1rem">${coach.name}</div>
+            <div style="font-size:.85rem;color:var(--ink3);margin-top:2px">${coach.specialization?.join(', ') || 'Financial Coach'}</div>
+            <div style="font-size:.8rem;color:var(--sage);margin-top:4px">Connected</div>
+          </div>
+          <div style="text-align:right">
+            <button class="btn btn-primary" onclick="navTo('my-tasks')" style="font-size:.85rem;padding:6px 12px">View Tasks</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="g2 mb-16">
+        <div class="card">
+          <div style="padding:16px;text-align:center">
+            <div style="font-size:2rem;margin-bottom:8px">📋</div>
+            <div style="font-weight:600">${tasks.length}</div>
+            <div style="font-size:.8rem;color:var(--ink3)">Active Tasks</div>
+          </div>
+        </div>
+        <div class="card">
+          <div style="padding:16px;text-align:center">
+            <div style="font-size:2rem;margin-bottom:8px">💬</div>
+            <div style="font-weight:600">${unreadCount}</div>
+            <div style="font-size:.8rem;color:var(--ink3)">Unread Messages</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="padding:16px;border-bottom:1px solid var(--border)">
+          <div style="font-weight:600;margin-bottom:12px">Recent Tasks</div>
+          <div id="my-coach-task-summary">
+            ${tasks.slice(0, 3).map(task => `
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border-light)">
+                <div style="width:8px;height:8px;border-radius:50%;background:${
+                  task.status === 'completed' ? 'var(--success)' :
+                  task.status === 'in-progress' ? 'var(--warning)' :
+                  'var(--ink3)'
+                }"></div>
+                <div style="flex:1;font-size:.85rem">${task.title}</div>
+                <div style="font-size:.75rem;color:var(--ink4)">${task.status}</div>
+              </div>
+            `).join('') || '<div style="font-size:.85rem;color:var(--ink4);text-align:center;padding:10px">No tasks assigned yet</div>'}
+          </div>
+        </div>
+        <div style="padding:16px">
+          <button class="btn btn-outline w-full" onclick="openCoachChat()">
+            <span style="margin-right:8px">💬</span>
+            Message Your Coach
+          </button>
+        </div>
+      </div>
+    `;
+
+    // Update coach message badge
+    updateCoachMessageBadge(unreadCount);
+
+  } catch (error) {
+    console.error('Error loading assigned coach:', error);
+    renderMyCoachPanel();
+  }
+}
+
+function updateCoachMessageBadge(count) {
+  const badge = ge('coach-message-badge');
+  if (badge) {
+    if (count > 0) {
+      badge.style.display = '';
+      badge.textContent = count;
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+}
+
+function openCoachChat() {
+  // Navigate to messages page or open chat modal
+  navTo('messages'); // Assuming there's a messages page, or we can create a modal
 }
 
 function renderMyCoachPanel() {
@@ -2045,7 +2152,7 @@ function renderMyCoachPanel() {
         <div class="card" id="user-coach-chat-section" style="padding:0;overflow:hidden">
           <div style="padding:14px 18px;border-bottom:1px solid var(--border);background:var(--sage-light);display:flex;align-items:center;gap:10px">
             <div style="width:32px;height:32px;border-radius:50%;background:var(--sage);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.9rem">👨‍💼</div>
-            <div><div style="font-weight:600;font-size:.88rem">FinCoach Chat</div><div style="font-size:.72rem;color:var(--sage)">● Connected</div></div>
+            <div><div style="font-weight:600;font-size:.88rem">FinCoach Chat</div><div style="font-size:.72rem;color:var(--sage)">Connected</div></div>
           </div>
           <div id="user-coach-messages" style="height:280px;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:6px;background:var(--c)">
             <div style="text-align:center;color:var(--ink4);font-size:.82rem;padding:20px">Messages from your coach will appear here once assigned.</div>

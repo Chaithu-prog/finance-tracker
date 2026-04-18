@@ -13,7 +13,7 @@ exports.register = async (req, res) => {
     res.status(201).json({
       success: true,
       message: 'Account created successfully.',
-      data: { token, user: { id: user._id, name: user.name, email: user.email, plan: user.plan, preferences: user.preferences, financialProfile: user.financialProfile } },
+      data: { token, user: { id: user._id, name: user.name, email: user.email, plan: user.plan, preferences: user.preferences, financialProfile: user.financialProfile, assignedCoach: user.assignedCoach, coachTrialStart: user.coachTrialStart } },
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -36,7 +36,7 @@ exports.login = async (req, res) => {
     res.json({
       success: true,
       message: 'Login successful.',
-      data: { token, user: { id: user._id, name: user.name, email: user.email, plan: user.plan, preferences: user.preferences, financialProfile: user.financialProfile, avatar: user.avatar, bio: user.bio } },
+      data: { token, user: { id: user._id, name: user.name, email: user.email, plan: user.plan, preferences: user.preferences, financialProfile: user.financialProfile, avatar: user.avatar, bio: user.bio, assignedCoach: user.assignedCoach, coachTrialStart: user.coachTrialStart } },
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -45,7 +45,7 @@ exports.login = async (req, res) => {
 
 exports.getMe = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.user._id).populate('assignedCoach', 'name email avatar bio specialization');
     res.json({ success: true, data: user });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
