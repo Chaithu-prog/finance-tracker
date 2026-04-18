@@ -2003,12 +2003,12 @@ async function loadMyCoach() {
   if (!container) return;
   container.innerHTML = '<div class="loader"><div class="spinner"></div></div>';
   try {
-    // Check if user has an assigned coach
+    // Refresh the logged-in user in case the coach was assigned while the user remained signed in.
+    const meRes = await API.get('/auth/me');
+    S.user = meRes.data;
     if (S.user && S.user.assignedCoach) {
-      // User has a coach assigned - show coach interface
       await loadAssignedCoach();
     } else {
-      // No coach assigned - show coach connection panel
       renderMyCoachPanel();
     }
   } catch (error) {
